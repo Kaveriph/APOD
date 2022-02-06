@@ -8,7 +8,9 @@ import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
 import com.kaveri.gs.apod.R
+import com.kaveri.gs.apod.databinding.FragmentApodListBinding
 import com.kaveri.gs.apod.view.fragments.placeholder.PlaceholderContent
 
 /**
@@ -17,6 +19,7 @@ import com.kaveri.gs.apod.view.fragments.placeholder.PlaceholderContent
 class apodFragmentList : Fragment() {
 
     private var columnCount = 1
+    private var dataBinding: FragmentApodListBinding? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,6 +46,11 @@ class apodFragmentList : Fragment() {
             }
         }
         return view
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        dataBinding = DataBindingUtil.bind(view)
     }
 
     companion object {

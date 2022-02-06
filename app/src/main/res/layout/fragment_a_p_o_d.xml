@@ -1,61 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="@dimen/twenty_dp"
-    tools:context=".view.fragments.APODFragment">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <TextView
-        android:id="@+id/mApodTitle"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/twenty_dp"
-        android:layout_marginRight="@dimen/twenty_dp"
-        android:text="APOD Fragment lkgfjhdfhgkjdhfgkjdhfgkhdfkgjhdfkgfdglkjdfklghjldkhfghkdghjhg"
-        app:layout_constraintEnd_toStartOf="@+id/mApodDate"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <data>
+        <variable
+            name="viewModel"
+            type="com.kaveri.gs.apod.viewmodel.MainViewModel"
+            />
+        
+        <variable
+            name="actionListener"
+            type="com.kaveri.gs.apod.view.fragments.APODFragmentActionListener" />
+    </data>
 
-    <TextView
-        android:id="@+id/mApodDate"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="28/03/1994"
-        app:layout_constraintBottom_toBottomOf="@+id/mApodTitle"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/mApodTitle" />
-
-    <LinearLayout
-        android:id="@+id/mLLImgVd"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="500dp"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@+id/mApodDescription"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/mApodTitle">
+        android:layout_height="match_parent"
+        android:padding="@dimen/twenty_dp"
+        tools:context=".view.fragments.APODFragment">
 
-        <ImageView
-            android:id="@+id/mApodImage"
+        <TextView
+            android:id="@+id/mApodTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/twenty_dp"
+            android:layout_marginRight="@dimen/twenty_dp"
+            android:text="@{viewModel.todaysApod.title}"
+            app:layout_constraintEnd_toStartOf="@+id/mApodDate"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/mApodDate"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@{viewModel.todaysApod.date}"
+            app:layout_constraintBottom_toBottomOf="@+id/mApodTitle"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:onClick="@{ (view) -> actionListener.onDateSelectionClick()}"
+            app:layout_constraintTop_toTopOf="@+id/mApodTitle" />
+
+        <LinearLayout
+            android:id="@+id/mLLImgVd"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="fitCenter" />
+            android:layout_height="500dp"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toTopOf="@+id/mApodDescription"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/mApodTitle">
 
-        <VideoView
-            android:id="@+id/mVideoView"
+            <ImageView
+                android:id="@+id/mApodImage"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="fitCenter" />
+
+            <VideoView
+                android:id="@+id/mVideoView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/mApodDescription"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:visibility="gone" />
-
-    </LinearLayout>
-
-    <TextView
-        app:layout_constraintTop_toBottomOf="@+id/mLLImgVd"
-        android:id="@+id/mApodDescription"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:text="Description goes here "
-        app:layout_constraintBottom_toBottomOf="parent" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+            android:layout_height="wrap_content"
+            android:text="@{viewModel.todaysApod.explanation}"
+            app:layout_constraintTop_toBottomOf="@+id/mLLImgVd" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

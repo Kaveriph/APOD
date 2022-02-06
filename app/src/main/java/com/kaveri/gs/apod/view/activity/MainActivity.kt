@@ -2,9 +2,11 @@ package com.kaveri.gs.apod.view.activity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.kaveri.gs.apod.R
+import com.kaveri.gs.apod.databinding.ActivityMainBinding
 import com.kaveri.gs.apod.view.fragments.APODFragment
 import com.kaveri.gs.apod.view.fragments.apodFragmentList
 import com.kaveri.gs.apod.viewmodel.MainViewModel
@@ -15,15 +17,21 @@ class MainActivity : AppCompatActivity() {
         ViewModelProvider(this).get(MainViewModel::class.java)
     }
 
+    private lateinit var binding: ActivityMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         init()
     }
 
     fun init() {
+        viewModel.init()
+        binding.viewModel = this.viewModel
+        viewModel.init()
+        binding.setLifecycleOwner(this@MainActivity)
         val apodFragment = APODFragment.newInstance()
         val listFragment = apodFragmentList.newInstance(3)
+        setCurrentFragment(apodFragment)
         mBottomNavigationBar.setOnItemSelectedListener {
             when(it.itemId) {
                 R.id.apod -> {
