@@ -5,9 +5,20 @@ import com.kaveri.gs.apod.model.retrofit.RetrofitBuilder
 import retrofit2.Call
 import retrofit2.Response
 
+
+/**
+ * This class implements the [INetworkRepository] interface
+ * and provides implementation for accessing the apis
+ * */
 class NetworkRepository : INetworkRepository {
 
 
+    /**
+     *  This method retrieved the [APOD] data from NASA APOD API
+     *  @param date is the date for which the APOD should be retrieved
+     *  @param successCallback is to invoke the success callback once the request is succesfull to handle the response data
+     *  @param failureCallback is to invoke the failure callback when the request fails
+     * */
     override fun getApod(
         date: String,
         successCallback: (apod: APOD?) -> Unit,
@@ -33,6 +44,13 @@ class NetworkRepository : INetworkRepository {
         )
     }
 
+    /**
+     *  This method retrieved the [APOD] data from NASA APOD API
+     *  @param startDate is the starting date of range for which the APOD should be retrieved
+     *  @param endDate is the ending date of range for which the APOD should be retrieved
+     *  @param successCallback is to invoke the success callback once the request is succesfull to handle the response data
+     *  @param failureCallback is to invoke the failure callback when the request fails
+     * */
     override fun getApodForDateRange(
         startDate: String,
         endDate: String,
