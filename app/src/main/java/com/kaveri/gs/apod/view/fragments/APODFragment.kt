@@ -61,19 +61,25 @@ class APODFragment : Fragment(), APODFragmentActionListener {
         super.onViewCreated(view, savedInstanceState)
         println("onViewCreated")
         init(view)
+    }
+
+    override fun onResume() {
+        super.onResume()
         initObservers()
     }
 
     private fun initObservers() {
-        viewModel.selectedDate.observe(viewLifecycleOwner, {
-            viewModel.getAPOD()
-        })
         viewModel.todaysApod.observe(viewLifecycleOwner, { apod ->
             apod?.let {
+                println("today's APOD is updated")
                 initMedia(it)
-                if (apod.fav) binding?.addToFavImg?.setBackgroundResource(R.drawable.ic_fav_selected)
-                else binding?.addToFavImg?.setBackgroundResource(R.drawable.ic_fav_unselected)
+                if (apod.fav) binding?.addToFavImg?.setBackgroundResource(R.drawable.ic_added_to_fav)
+                else binding?.addToFavImg?.setBackgroundResource(R.drawable.ic_add_to_fav)
             }
+        })
+        viewModel.selectedDate.observe(viewLifecycleOwner, {
+            println("date updated : getting APOD")
+            viewModel.getAPOD()
         })
         /*     val imageLoader = ImageLoader(context = requireContext())
              runBlocking {
@@ -135,7 +141,6 @@ class APODFragment : Fragment(), APODFragmentActionListener {
             }
         }
     }
-
 
     private fun initPlayer(url: String) {
         adsLoader = ImaAdsLoader.Builder(requireContext()).build()
@@ -199,9 +204,9 @@ class APODFragment : Fragment(), APODFragmentActionListener {
         super.onPause()
         if (Util.SDK_INT <= 23) {
             if (binding != null && binding?.playerView != null) {
-                binding?.playerView?.onPause();
+                binding?.playerView?.onPause()
             }
-            releasePlayer();
+            releasePlayer()
         }
     }
 

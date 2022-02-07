@@ -10,27 +10,19 @@ import coil.load
 import com.kaveri.gs.apod.R
 import com.kaveri.gs.apod.databinding.ApodListItemBinding
 import com.kaveri.gs.apod.model.pojo.APOD
-import kotlinx.android.synthetic.main.apod_list_item.view.*
 
-class FavListRecyclerViewAdapter(val context: Context, val favList: List<APOD>?) :
-    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class FavListRecyclerViewAdapter(
+    val context: Context,
+    val favList: List<APOD>?,
+    val actionListener: IListActionListener
+) :
+    RecyclerView.Adapter<FavListRecyclerViewAdapter.FavListViewHolder>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FavListViewHolder {
         return FavListViewHolder(
             LayoutInflater.from(context).inflate(R.layout.apod_list_item, parent, false)
         )
     }
-
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        val apodItem = favList?.get(position)
-        println("${apodItem?.date} : ${apodItem?.url} : ${apodItem?.fav} : ${apodItem?.title}")
-        apodItem?.let { apod ->
-            holder.itemView.titleTxt.text = apod.title
-            holder.itemView.dateTxt.text = apod.date
-            if (apod.mediaType.equals("image")) holder.itemView.imageView.load(apod.url)
-        }
-    }
-
 
     override fun getItemCount(): Int {
         return favList?.size ?: 0
@@ -38,5 +30,17 @@ class FavListRecyclerViewAdapter(val context: Context, val favList: List<APOD>?)
 
     class FavListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val binding: ApodListItemBinding? = DataBindingUtil.bind(itemView)
+    }
+
+    override fun onBindViewHolder(holder: FavListViewHolder, position: Int) {
+        val apodItem = favList?.get(position)
+        println("${apodItem?.date} : ${apodItem?.url} : ${apodItem?.fav} : ${apodItem?.title}")
+        apodItem?.let { apod ->
+            holder.binding?.titleTxt?.text = apod.title
+            holder.binding?.dateTxt?.text = apod.date
+            if (apod.mediaType.equals("image")) holder.binding?.imageView?.load(apod.url)
+        }
+        holder.binding?.item = favList?.get(position)
+        holder.binding?.actionListener = actionListener
     }
 }

@@ -1,7 +1,6 @@
 package com.kaveri.gs.apod.viewmodel
 
 import android.app.Application
-import android.os.Build
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
@@ -10,6 +9,7 @@ import com.kaveri.gs.apod.model.pojo.APOD
 import com.kaveri.gs.apod.model.pojo.ApodNasa
 import com.kaveri.gs.apod.model.repository.APODRepository
 import com.kaveri.gs.apod.viewmodel.helper.HelperUtil.convertNASAObjToRoomObj
+import com.kaveri.gs.apod.viewmodel.helper.HelperUtil.convertNasaObjToAppObj
 import com.kaveri.gs.apod.viewmodel.helper.HelperUtil.convertRoomObjToAppObj
 import kotlinx.coroutines.*
 import java.text.SimpleDateFormat
@@ -23,6 +23,7 @@ import kotlin.collections.ArrayList
  * */
 class MainViewModel(application: Application) : AndroidViewModel(application) {
 
+    var indexOfItemRemoved: MutableLiveData<Int> = MutableLiveData()
     var selectedDate: MutableLiveData<String> = MutableLiveData()
     var todaysApod: MutableLiveData<APOD> = MutableLiveData()
     private val apodRepository = APODRepository(application.applicationContext)
@@ -76,17 +77,6 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
             })
         }
     }
-
-    private fun convertNasaObjToAppObj(it: ApodNasa) = APOD(
-        date = it.date,
-        explanation = it.explanation,
-        hdurl = it.hdurl,
-        mediaType = it.mediaType,
-        serviceVersion = it.serviceVersion,
-        title = it.title,
-        url = it.url,
-        fav = false
-    )
 
     private fun isRecentDate(): Boolean {
         return apodRepository.getRecentDateStored(getApplication()).equals(selectedDate.value)
@@ -160,8 +150,9 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
             }.await()
             val dbAPOD = readFromDb(date)
             withContext(Dispatchers.Main) {
+                todaysApod.value = todaysApod.value?.copy(fav = true)
                 val favApod = convertRoomObjToAppObj(dbAPOD)
-                var list = favListOfAPOD.value ?: arrayListOf()
+                val list = favListOfAPOD.value ?: arrayListOf()
                 list.add(favApod)
                 if (favListOfAPOD.value?.contains(favApod) == false) favListOfAPOD.value = list
             }
@@ -173,27 +164,29 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
      * ToDo: Not in use yet. needs to be handled from the Fav list page
      * */
     fun removeFromFav(date: String) {
-        runBlocking {
-            withContext(Dispatchers.Default) {
-                async {
-                    apodRepository.removeFromFav(date)
-                }.await()
-                withContext(Dispatchers.Main) {
-                    //val favApod = convertRoomObjToAppObj(readFromDb(date))
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                        favListOfAPOD.value?.removeIf { it.date.equals(date) }
-                    } else {
-                        var itemTobeREmoved: APOD? = null
-                        for (item in favListOfAPOD.value!!) {
-                            if (item.date.equals(date)) {
-                                itemTobeREmoved = item
-                                break
-                            }
-                        }
-                        itemTobeREmoved?.let {
-                            favListOfAPOD.value?.remove(itemTobeREmoved)
+        CoroutineScope(Dispatchers.Default).launch {
+            println("remove from fav")
+            async {
+                apodRepository.removeFromFav(date)
+            }.await()
+            withContext(Dispatchers.Main) {
+                var itemTobeRemoved: APOD? = null
+                if (date.equals(todaysApod.value?.date) == true) {
+                    itemTobeRemoved = todaysApod.value
+                    todaysApod.value = todaysApod.value?.copy(fav = false)
+                } else {
+                    for (item in favListOfAPOD.value!!) {
+                        if (item.date.equals(date)) {
+                            itemTobeRemoved = item
+                            break
                         }
                     }
+                }
+                println("SDK < N : itemToBeRemoved : ${itemTobeRemoved}")
+                itemTobeRemoved?.let {
+                    indexOfItemRemoved.value = favListOfAPOD.value?.indexOf(itemTobeRemoved)
+                    favListOfAPOD.value?.remove(itemTobeRemoved)
+                    println("removed the item")
                 }
             }
         }

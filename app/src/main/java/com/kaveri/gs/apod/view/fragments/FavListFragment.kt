@@ -1,11 +1,12 @@
 package com.kaveri.gs.apod.view.fragments
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.kaveri.gs.apod.R
@@ -13,19 +14,15 @@ import com.kaveri.gs.apod.databinding.FragmentFavListBinding
 import com.kaveri.gs.apod.model.pojo.APOD
 import com.kaveri.gs.apod.viewmodel.MainViewModel
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
 /**
  * A simple [Fragment] subclass.
  * Use the [FavListFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class FavListFragment : Fragment() {
+class FavListFragment : Fragment(), IListActionListener {
 
-    private lateinit var recyclerViewAdapter: FavListRecyclerViewAdapter
+    private var recyclerViewAdapter: FavListRecyclerViewAdapter? = null
     private var binding: FragmentFavListBinding? = null
     private var listOfFavApod = ArrayList<APOD>()
 
@@ -44,27 +41,46 @@ class FavListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = DataBindingUtil.bind(view)
+        binding?.lifecycleOwner = this
         init()
+    }
+
+    override fun onResume() {
+        super.onResume()
         initObservers()
     }
 
     private fun initObservers() {
+        viewModel.indexOfItemRemoved.observe(viewLifecycleOwner, {
+            println("item removed : ${it}")
+            if (it != -1) {
+                listOfFavApod.removeAt(it)
+                recyclerViewAdapter?.notifyItemRemoved(it)
+            }
+        })
         viewModel.favListOfAPOD.observe(viewLifecycleOwner, {
+            println("fav list updated")
             listOfFavApod.clear()
             listOfFavApod.addAll(it)
-            recyclerViewAdapter.notifyDataSetChanged()
+            recyclerViewAdapter?.notifyDataSetChanged()
         })
     }
 
+    override fun onPause() {
+        super.onPause()
+        viewModel.indexOfItemRemoved.value = -1
+    }
+
     private fun init() {
-        viewModel.favListOfAPOD.value?.let {
-            listOfFavApod.clear()
-            listOfFavApod.addAll(it)
-        }
-        recyclerViewAdapter = FavListRecyclerViewAdapter(requireContext(), listOfFavApod)
+        println("Creating fav list adapter")
+        recyclerViewAdapter = FavListRecyclerViewAdapter(requireContext(), listOfFavApod, this)
         binding?.favListRv?.adapter = recyclerViewAdapter
         binding?.favListRv?.layoutManager = LinearLayoutManager(requireContext())
         viewModel.getFavAPOD()
+    }
+
+    override fun removeItem(date: String) {
+        viewModel.removeFromFav(date)
     }
 
     companion object {

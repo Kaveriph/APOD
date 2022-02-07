@@ -17,7 +17,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="@dimen/twenty_dp"
+        android:padding="@dimen/twenty_sp"
         tools:context=".view.fragments.APODFragment">
 
 
@@ -25,8 +25,10 @@
             android:id="@+id/mApodTitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/twenty_dp"
-            android:layout_marginRight="@dimen/twenty_dp"
+            android:layout_marginEnd="@dimen/twenty_sp"
+            android:layout_marginRight="@dimen/twenty_sp"
+            android:textStyle="bold"
+            android:textSize="@dimen/forteen_sp"
             android:text="@{viewModel.todaysApod.title}"
             app:layout_constraintEnd_toStartOf="@+id/mApodDate"
             app:layout_constraintStart_toStartOf="parent"
@@ -35,6 +37,7 @@
         <Button
             android:id="@+id/mApodDate"
             android:layout_width="0dp"
+            android:textSize="@dimen/ten_sp"
             android:layout_height="wrap_content"
             android:text="@{viewModel.todaysApod.date}"
             app:layout_constraintBottom_toBottomOf="@+id/mApodTitle"
@@ -45,7 +48,7 @@
         <LinearLayout
             android:id="@+id/mLLImgVd"
             android:layout_width="match_parent"
-            android:layout_height="500dp"
+            android:layout_height="400dp"
             android:orientation="vertical"
             app:layout_constraintBottom_toTopOf="@+id/mApodDescription"
             app:layout_constraintEnd_toEndOf="parent"
@@ -55,7 +58,7 @@
             <ImageView
                 android:id="@+id/addToFavImg"
                 android:layout_width="wrap_content"
-                android:src="@drawable/ic_fav_unselected"
+                android:src="@drawable/ic_add_to_fav"
                 android:onClick="@{ (view) -> actionListener.addToFav()}"
                 android:layout_height="wrap_content"/>
 
@@ -63,7 +66,7 @@
                 android:id="@+id/mApodImage"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:scaleType="fitCenter" />
+                />
 
           <!--  <SurfaceView
                 android:id="@+id/mVideoView"
@@ -82,6 +85,7 @@
         <TextView
             android:id="@+id/mApodDescription"
             android:layout_width="match_parent"
+            android:textSize="@dimen/ten_sp"
             android:layout_height="wrap_content"
             android:text="@{viewModel.todaysApod.explanation}"
             app:layout_constraintTop_toBottomOf="@+id/mLLImgVd" />

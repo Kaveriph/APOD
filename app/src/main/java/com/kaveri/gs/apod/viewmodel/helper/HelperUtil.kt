@@ -20,7 +20,7 @@ object HelperUtil {
     }
 
     fun convertRoomObjToAppObj(item: com.kaveri.gs.apod.model.room.APOD): APOD {
-        val apod: APOD = APOD(
+        val apod = APOD(
             date = item.date,
             explanation = item.explanation,
             hdurl = item.hdurl,
@@ -33,4 +33,14 @@ object HelperUtil {
         return apod
     }
 
+    fun convertNasaObjToAppObj(it: ApodNasa) = APOD(
+        date = it.date,
+        explanation = it.explanation,
+        hdurl = it.hdurl,
+        mediaType = it.mediaType,
+        serviceVersion = it.serviceVersion,
+        title = it.title,
+        url = it.url,
+        fav = false
+    )
 }
