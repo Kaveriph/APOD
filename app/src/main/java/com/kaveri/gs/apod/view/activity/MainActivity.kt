@@ -23,6 +23,13 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         init()
+        initObservers()
+    }
+
+    private fun initObservers() {
+        viewModel.selectedDate.observe(this, {
+
+        })
     }
 
     fun init() {

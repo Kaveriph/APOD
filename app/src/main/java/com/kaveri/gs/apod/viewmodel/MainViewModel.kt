@@ -9,6 +9,8 @@ import com.google.android.material.datepicker.MaterialDatePicker
 import com.kaveri.gs.apod.model.pojo.APOD
 import com.kaveri.gs.apod.model.pojo.ApodNasa
 import com.kaveri.gs.apod.model.repository.APODRepository
+import com.kaveri.gs.apod.viewmodel.helper.HelperUtil.convertNASAObjToRoomObj
+import com.kaveri.gs.apod.viewmodel.helper.HelperUtil.convertRoomObjToAppObj
 import kotlinx.coroutines.*
 import java.text.SimpleDateFormat
 import java.util.*
@@ -28,24 +30,45 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     var favListOfAPOD: MutableLiveData<ArrayList<APOD>> = MutableLiveData()
 
     fun init() {
-        selectedDate.value = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date())
+        val recentDate = apodRepository.getRecentDateStored(getApplication())
+        if (recentDate.isEmpty()) {
+            val currentDate = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date())
+            selectedDate.value = currentDate
+        } else {
+            selectedDate.value = recentDate
+        }
     }
 
+    /**
+     * get [APOD] from to be shown in home page
+     * */
     fun getAPOD() {
+        if (isRecentDate()) {
+            CoroutineScope(Dispatchers.Default).launch {
+                var readFromRoomDb: com.kaveri.gs.apod.model.room.APOD? = null
+                async {
+                    readFromRoomDb = readFromDb(selectedDate.value ?: "")
+                }.await()
+                withContext(Dispatchers.Main) {
+                    readFromRoomDb?.let {
+                        todaysApod.value = convertRoomObjToAppObj(it)
+                    }
+                    if (readFromRoomDb == null) {
+                        getAPODFromApi()
+                    }
+                }
+            }
+        } else {
+            getAPODFromApi()
+        }
+    }
+
+    private fun getAPODFromApi() {
         selectedDate.value?.let {
             apodRepository.getApodFromApi(it, {
                 it?.let {
-                    println("APOD received : ${it.toString()}")
-                    todaysApod.value = APOD(
-                        date = it.date,
-                        explanation = it.explanation,
-                        hdurl = it.hdurl,
-                        mediaType = it.mediaType,
-                        serviceVersion = it.serviceVersion,
-                        title = it.title,
-                        url = it.url,
-                        fav = false
-                    )
+                    println("APOD received : ${it}")
+                    todaysApod.value = convertNasaObjToAppObj(it)
                     storeApodInDb(it)
                 }
             }, {
@@ -54,7 +77,24 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
+    private fun convertNasaObjToAppObj(it: ApodNasa) = APOD(
+        date = it.date,
+        explanation = it.explanation,
+        hdurl = it.hdurl,
+        mediaType = it.mediaType,
+        serviceVersion = it.serviceVersion,
+        title = it.title,
+        url = it.url,
+        fav = false
+    )
 
+    private fun isRecentDate(): Boolean {
+        return apodRepository.getRecentDateStored(getApplication()).equals(selectedDate.value)
+    }
+
+    /**
+     * Retrieve the favorite APOD from Room Database
+     * */
     fun getFavAPOD() {
         CoroutineScope(Dispatchers.Default).launch {
             val favApod = apodRepository.getFavAPOD()
@@ -72,20 +112,6 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    private fun convertRoomObjToAppObj(item: com.kaveri.gs.apod.model.room.APOD): APOD {
-        val apod: APOD = APOD(
-            date = item.date,
-            explanation = item.explanation,
-            hdurl = item.hdurl,
-            mediaType = item.media_type,
-            serviceVersion = item.service_version,
-            title = item.title,
-            url = item.url,
-            fav = item.fav
-        )
-        return apod
-    }
-
 
     /**
      *  This method storeds the APOD retrieved from backend in the RoomDb
@@ -96,24 +122,9 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         runBlocking {
             val apodRead = CoroutineScope(Dispatchers.Default).async {
                 apodRepository.insert(apod)
-            }
-            println("${apodRead.await()}")
-            readFromDb(apod.date)
+            }.await()
+            apodRepository.setRecentDate(getApplication(), apod.date)
         }
-    }
-
-    private fun convertNASAObjToRoomObj(readApodNasa: ApodNasa?): com.kaveri.gs.apod.model.room.APOD {
-        val apod: com.kaveri.gs.apod.model.room.APOD = com.kaveri.gs.apod.model.room.APOD(
-            date = readApodNasa?.date ?: "",
-            explanation = readApodNasa?.explanation ?: "",
-            hdurl = readApodNasa?.hdurl ?: "",
-            media_type = readApodNasa?.mediaType ?: "",
-            service_version = readApodNasa?.serviceVersion ?: "",
-            title = readApodNasa?.title ?: "",
-            url = readApodNasa?.url ?: "",
-            fav = false
-        )
-        return apod
     }
 
     private suspend fun readFromDb(date: String): com.kaveri.gs.apod.model.room.APOD {
@@ -122,6 +133,10 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         return apodReadFromDb
     }
 
+
+    /**
+     * Opens the date picker dialog and uses the date selected for search result
+     * */
     fun openDatePicker(fragmentManager: FragmentManager) {
         val datePickerDialog = MaterialDatePicker.Builder.datePicker()
             .setTitleText("Select date")
@@ -130,9 +145,13 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         datePickerDialog.addOnPositiveButtonClickListener {
             selectedDate.value =
                 SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date(it))
+            apodRepository.setRecentDate(getApplication(), selectedDate.value ?: "")
         }
     }
 
+    /**
+     * Add the APOD to favorites
+     * */
     fun addToFav(date: String) {
         CoroutineScope(Dispatchers.Default).launch {
             async {
@@ -149,6 +168,10 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
+    /**
+     * Removes the APOD from favorites.
+     * ToDo: Not in use yet. needs to be handled from the Fav list page
+     * */
     fun removeFromFav(date: String) {
         runBlocking {
             withContext(Dispatchers.Default) {
@@ -175,6 +198,4 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
             }
         }
     }
-
-
 }

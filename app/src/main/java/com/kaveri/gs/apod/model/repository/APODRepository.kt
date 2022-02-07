@@ -9,7 +9,7 @@ import com.kaveri.gs.apod.model.pojo.ApodNasa
  * RoomDB / Network
  * @param context Context of the application
  * */
-class APODRepository(context: Context) : INetworkRepository, IRoomDbRepository {
+class APODRepository(context: Context) : INetworkRepository, IRoomDbRepository, ISharedRepository {
 
     private val networkRepository by lazy {
         NetworkRepository()
@@ -17,6 +17,10 @@ class APODRepository(context: Context) : INetworkRepository, IRoomDbRepository {
 
     private val roomDbRepository by lazy {
         RoomDBRepository(context)
+    }
+
+    private val  sharedPrefRepository by lazy {
+        SharedPreferenceRepository()
     }
 
     /**
@@ -90,5 +94,13 @@ class APODRepository(context: Context) : INetworkRepository, IRoomDbRepository {
 
     override suspend fun removeFromFav(date: String) {
         return roomDbRepository.removeFromFav(date)
+    }
+
+    override fun getRecentDateStored(context: Context): String {
+        return sharedPrefRepository.getRecentDateStored(context)
+    }
+
+    override fun setRecentDate(context: Context, date: String) {
+        sharedPrefRepository.setRecentDate(context, date)
     }
 }
