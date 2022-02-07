@@ -5,4 +5,7 @@
     <string name="apod">APOD</string>
     <string name="explore">Explore</string>
     <string name="favorites">Fav</string>
+    <string name="error_msg">The data for the selected date is not available. Please select another date</string>
+    <string name="something_wrong">Something went wrong. Please heck your internet connection</string>
+    <string name="select_date">Select date</string>
 </resources>

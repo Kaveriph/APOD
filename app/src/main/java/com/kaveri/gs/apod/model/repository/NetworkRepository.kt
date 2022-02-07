@@ -1,5 +1,6 @@
 package com.kaveri.gs.apod.model.repository
 
+import com.kaveri.gs.apod.R
 import com.kaveri.gs.apod.model.pojo.ApodNasa
 import com.kaveri.gs.apod.model.retrofit.RetrofitBuilder
 import retrofit2.Call
@@ -32,13 +33,14 @@ class NetworkRepository : INetworkRepository {
                         println("response received : ${response.body()}")
                         successCallback(response.body())
                     } else {
-                        println("Failure: response received : ${response.message()}")
+                        println("Failure: response received : ${response.code()}")
                         failureCallback(response.message())
                     }
                 }
 
                 override fun onFailure(call: Call<ApodNasa>, t: Throwable) {
                     println("Call failed ${t.stackTrace}")
+                    failureCallback("Something went wrong, Please check your internet connection.")
                 }
 
             }

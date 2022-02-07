@@ -39,6 +39,7 @@
             android:layout_width="0dp"
             android:textSize="@dimen/twenty_sp"
             android:layout_height="wrap_content"
+            android:hint="@string/select_date"
             android:text="@{viewModel.todaysApod.date}"
             app:layout_constraintBottom_toBottomOf="@+id/mApodTitle"
             app:layout_constraintEnd_toEndOf="parent"
@@ -59,6 +60,7 @@
                 android:id="@+id/addToFavImg"
                 android:layout_width="wrap_content"
                 android:src="@drawable/ic_add_to_fav"
+                android:visibility="gone"
                 android:onClick="@{ (view) -> actionListener.addToFav()}"
                 android:layout_height="wrap_content"/>
 

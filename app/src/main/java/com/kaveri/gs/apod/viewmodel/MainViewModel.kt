@@ -1,10 +1,12 @@
 package com.kaveri.gs.apod.viewmodel
 
 import android.app.Application
+import android.widget.Toast
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import com.google.android.material.datepicker.MaterialDatePicker
+import com.kaveri.gs.apod.R
 import com.kaveri.gs.apod.model.pojo.APOD
 import com.kaveri.gs.apod.model.pojo.ApodNasa
 import com.kaveri.gs.apod.model.repository.APODRepository
@@ -74,6 +76,11 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                 }
             }, {
                 println("get failed : $it")
+                if(it.contains("BAD REQUEST")) {
+                    Toast.makeText(getApplication(), R.string.error_msg, Toast.LENGTH_LONG).show()
+                } else {
+                    Toast.makeText(getApplication(), it, Toast.LENGTH_LONG).show()
+                }
             })
         }
     }
@@ -119,7 +126,6 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     private suspend fun readFromDb(date: String): com.kaveri.gs.apod.model.room.APOD {
         val apodReadFromDb = apodRepository.getAPODData(date)
-        println("APOD read from db : ${apodReadFromDb.title} : ${apodReadFromDb.date} :  ${apodReadFromDb.fav}")
         return apodReadFromDb
     }
 
