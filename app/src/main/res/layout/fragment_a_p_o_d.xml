@@ -20,6 +20,7 @@
         android:padding="@dimen/twenty_dp"
         tools:context=".view.fragments.APODFragment">
 
+
         <TextView
             android:id="@+id/mApodTitle"
             android:layout_width="0dp"
@@ -52,16 +53,29 @@
             app:layout_constraintTop_toBottomOf="@+id/mApodTitle">
 
             <ImageView
+                android:id="@+id/addToFavImg"
+                android:layout_width="wrap_content"
+                android:src="@drawable/ic_fav_unselected"
+                android:onClick="@{ (view) -> actionListener.addToFav()}"
+                android:layout_height="wrap_content"/>
+
+            <ImageView
                 android:id="@+id/mApodImage"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="fitCenter" />
 
-            <VideoView
+          <!--  <SurfaceView
                 android:id="@+id/mVideoView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:visibility="gone" />
+                android:visibility="gone" />-->
+            <com.google.android.exoplayer2.ui.PlayerView
+                android:id="@+id/playerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+            </com.google.android.exoplayer2.ui.PlayerView>
 
         </LinearLayout>
 

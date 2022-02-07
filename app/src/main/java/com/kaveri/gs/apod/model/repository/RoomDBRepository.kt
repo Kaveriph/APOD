@@ -23,8 +23,16 @@ class RoomDBRepository(context: Context) : IRoomDbRepository {
     }
 
     override suspend fun getFavAPOD(): List<APOD>? {
+        println("RoomDBRepository: calling getFavAPOD")
         return apodDao.getFav()
     }
 
+    override suspend fun addToFav(date: String) {
+        return apodDao.setFav(date, true)
+    }
+
+    override suspend fun removeFromFav(date: String) {
+        return apodDao.setFav(date, false)
+    }
 
 }

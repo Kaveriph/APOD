@@ -39,6 +39,18 @@ android {
     buildFeatures {
         dataBinding true
     }
+
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/license.txt'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/notice.txt'
+        exclude 'META-INF/ASL2.0'
+        exclude("META-INF/*.kotlin_module")
+    }
 }
 
 dependencies {
@@ -58,8 +70,19 @@ dependencies {
     //retrofit for network communication
     implementation 'com.squareup.retrofit2:retrofit:2.7.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.7.0'
+    implementation 'com.squareup.okhttp3:okhttp:4.9.2'
 
     // Room components
     implementation "androidx.room:room-ktx:2.4.1"
     kapt "androidx.room:room-compiler:2.4.1"
+
+    //COIL
+    implementation "io.coil-kt:coil:1.4.0"
+
+    //Video player
+
+    implementation 'com.google.android.exoplayer:exoplayer:2.16.1'
+    implementation 'com.google.android.exoplayer:exoplayer-core:2.16.1'
+    implementation 'com.google.android.exoplayer:exoplayer-ui:2.16.1'
+    implementation 'com.google.android.exoplayer:extension-ima:2.16.1'
 }

@@ -1,7 +1,7 @@
 package com.kaveri.gs.apod.model.repository
 
 import android.content.Context
-import com.kaveri.gs.apod.model.APOD
+import com.kaveri.gs.apod.model.pojo.ApodNasa
 
 
 /**
@@ -20,21 +20,21 @@ class APODRepository(context: Context) : INetworkRepository, IRoomDbRepository {
     }
 
     /**
-     *  This method retrieved the [APOD] data from NASA APOD API
+     *  This method retrieved the [ApodNasa] data from NASA APOD API
      *  @param date is the date for which the APOD should be retrieved
      *  @param successCallback is to invoke the success callback once the request is succesfull to handle the response data
      *  @param failureCallback is to invoke the failure callback when the request fails
      * */
-    override fun getApod(
+    override fun getApodFromApi(
         date: String,
-        successCallback: (apod: APOD?) -> Unit,
+        successCallback: (apodNasa: ApodNasa?) -> Unit,
         failureCallback: (errorMessag: String) -> Unit
     ) {
-        networkRepository.getApod(date, successCallback, failureCallback)
+        networkRepository.getApodFromApi(date, successCallback, failureCallback)
     }
 
     /**
-     *  This method retrieved the [APOD] data from NASA APOD API
+     *  This method retrieved the [ApodNasa] data from NASA APOD API
      *  @param startDate is the starting date of range for which the APOD should be retrieved
      *  @param endDate is the ending date of range for which the APOD should be retrieved
      *  @param successCallback is to invoke the success callback once the request is succesfull to handle the response data
@@ -43,14 +43,14 @@ class APODRepository(context: Context) : INetworkRepository, IRoomDbRepository {
     override fun getApodForDateRange(
         startDate: String,
         endDate: String,
-        successCallback: (apod: APOD?) -> Unit,
+        successCallback: (apodNasa: ApodNasa?) -> Unit,
         failureCallback: (errorMessag: String) -> Unit
     ) {
 
     }
 
     override fun getRandomApo(
-        successCallback: (apod: APOD?) -> Unit,
+        successCallback: (apodNasa: ApodNasa?) -> Unit,
         failureCallback: (errorMessag: String) -> Unit
     ) {
 
@@ -72,10 +72,23 @@ class APODRepository(context: Context) : INetworkRepository, IRoomDbRepository {
     }
 
     /**
-     * This is a Room DB method to retrieve the fav [APOD] data from DB
+     * This is a Room DB method to retrieve the fav [ApodNasa] data from DB
      * */
     override suspend fun getFavAPOD(): List<com.kaveri.gs.apod.model.room.APOD>? {
+        println("APODRepository: calling getFavAPOD")
         return roomDbRepository.getFavAPOD()
     }
 
+ /*   suspend fun getFavorites(): List<APOD> {
+        val favApod = getFavAPOD()
+        return listOfFavAPOD
+    }*/
+
+    override suspend fun addToFav(date: String) {
+        return roomDbRepository.addToFav(date)
+    }
+
+    override suspend fun removeFromFav(date: String) {
+        return roomDbRepository.removeFromFav(date)
+    }
 }

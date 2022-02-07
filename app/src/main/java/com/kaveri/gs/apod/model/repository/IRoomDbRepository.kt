@@ -19,4 +19,14 @@ interface IRoomDbRepository {
      * This is a Room DB method to retrieve the fav [APOD] data from DB
      * */
     suspend fun getFavAPOD(): List<APOD>?
+
+    /***
+     *
+     * */
+    suspend fun addToFav(date: String)
+
+    /***
+     *
+     * */
+    suspend fun removeFromFav(date: String)
 }

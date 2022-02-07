@@ -14,11 +14,12 @@ object RetrofitBuilder {
         OkHttpClient.Builder()
             .addInterceptor(Interceptor {
                 val originalRequest = it.request()
-                val url = originalRequest.url().newBuilder().addQueryParameter(
+                val url = originalRequest.url.newBuilder().addQueryParameter(
                     "api_key", API_KEY
                 ).build()
                 val requestBuilder = originalRequest.newBuilder().url(url)
                 val newRequest = requestBuilder.build()
+                println("Request url : ${newRequest.url}")
                 it.proceed(newRequest)
             }
             ).build()

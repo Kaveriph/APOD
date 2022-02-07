@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.kaveri.gs.apod.R
 import com.kaveri.gs.apod.databinding.ActivityMainBinding
 import com.kaveri.gs.apod.view.fragments.APODFragment
+import com.kaveri.gs.apod.view.fragments.FavListFragment
 import com.kaveri.gs.apod.view.fragments.apodFragmentList
 import com.kaveri.gs.apod.viewmodel.MainViewModel
 import kotlinx.android.synthetic.main.activity_main.mBottomNavigationBar
@@ -25,17 +26,19 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun init() {
-        viewModel.init()
         binding.viewModel = this.viewModel
         viewModel.init()
         binding.setLifecycleOwner(this@MainActivity)
         val apodFragment = APODFragment.newInstance()
         val listFragment = apodFragmentList.newInstance(3)
+        val favListFragmnet = FavListFragment.newInstance()
         setCurrentFragment(apodFragment)
         mBottomNavigationBar.setOnItemSelectedListener {
             when(it.itemId) {
                 R.id.apod -> {
                     setCurrentFragment(apodFragment)
+                } R.id.favorites -> {
+                    setCurrentFragment(favListFragmnet)
                 } else -> {
                     setCurrentFragment(listFragment)
                 }

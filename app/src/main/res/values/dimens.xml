@@ -3,4 +3,6 @@
     <dimen name="text_margin">16dp</dimen>
     <dimen name="bottom_navigation_bar_height">60dp</dimen>
     <dimen name="twenty_dp">20dp</dimen>
+    <dimen name="twenty_10dp">10dp</dimen>
+    <dimen name="ten_dp">10dp</dimen>
 </resources>
