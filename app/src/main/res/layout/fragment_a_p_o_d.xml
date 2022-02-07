@@ -17,7 +17,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="@dimen/twenty_sp"
+        android:padding="@dimen/thirty_sp"
         tools:context=".view.fragments.APODFragment">
 
 
@@ -25,10 +25,10 @@
             android:id="@+id/mApodTitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/twenty_sp"
-            android:layout_marginRight="@dimen/twenty_sp"
+            android:layout_marginEnd="@dimen/thirty_sp"
+            android:layout_marginRight="@dimen/thirty_sp"
             android:textStyle="bold"
-            android:textSize="@dimen/forteen_sp"
+            android:textSize="@dimen/twenty_four_sp"
             android:text="@{viewModel.todaysApod.title}"
             app:layout_constraintEnd_toStartOf="@+id/mApodDate"
             app:layout_constraintStart_toStartOf="parent"
@@ -37,7 +37,7 @@
         <Button
             android:id="@+id/mApodDate"
             android:layout_width="0dp"
-            android:textSize="@dimen/ten_sp"
+            android:textSize="@dimen/twenty_sp"
             android:layout_height="wrap_content"
             android:text="@{viewModel.todaysApod.date}"
             app:layout_constraintBottom_toBottomOf="@+id/mApodTitle"
@@ -85,7 +85,7 @@
         <TextView
             android:id="@+id/mApodDescription"
             android:layout_width="match_parent"
-            android:textSize="@dimen/ten_sp"
+            android:textSize="@dimen/twenty_sp"
             android:layout_height="wrap_content"
             android:text="@{viewModel.todaysApod.explanation}"
             app:layout_constraintTop_toBottomOf="@+id/mLLImgVd" />

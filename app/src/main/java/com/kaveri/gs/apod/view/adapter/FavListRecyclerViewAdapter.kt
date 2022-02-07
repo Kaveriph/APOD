@@ -1,4 +1,4 @@
-package com.kaveri.gs.apod.view.fragments
+package com.kaveri.gs.apod.view.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -10,6 +10,7 @@ import coil.load
 import com.kaveri.gs.apod.R
 import com.kaveri.gs.apod.databinding.ApodListItemBinding
 import com.kaveri.gs.apod.model.pojo.APOD
+import com.kaveri.gs.apod.view.fragments.IListActionListener
 
 class FavListRecyclerViewAdapter(
     val context: Context,

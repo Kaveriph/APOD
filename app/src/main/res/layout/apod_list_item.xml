@@ -16,13 +16,13 @@
         android:layout_height="wrap_content"
         app:cardCornerRadius="10dp"
         app:cardElevation="10dp"
-        android:padding="@dimen/ten_sp"
+        android:padding="@dimen/twenty_sp"
         app:cardUseCompatPadding="true">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="@dimen/ten_sp"
+            android:padding="@dimen/twenty_sp"
             android:background="@color/cream">
 
             <RelativeLayout
@@ -42,7 +42,7 @@
                     android:layout_toStartOf="@+id/dateTxt"
                     android:layout_toLeftOf="@+id/dateTxt"
                     android:gravity="center_vertical"
-                    android:textSize="@dimen/ten_sp" />
+                    android:textSize="@dimen/twenty_sp" />
 
                 <TextView
                     android:id="@+id/dateTxt"
@@ -50,30 +50,30 @@
                     android:layout_height="wrap_content"
                     android:layout_toLeftOf="@+id/removeItem"
                     android:layout_toStartOf="@+id/removeItem"
-                    android:layout_marginStart="@dimen/ten_sp"
-                    android:layout_marginLeft="@dimen/ten_sp"
+                    android:layout_marginStart="@dimen/twenty_sp"
+                    android:layout_marginLeft="@dimen/twenty_sp"
                     android:foregroundGravity="right"
-                    android:textSize="@dimen/ten_sp" />
+                    android:textSize="@dimen/twenty_sp" />
 
                 <ImageView
                     android:id="@+id/removeItem"
                     android:src="@drawable/ic_remove"
-                    android:layout_marginLeft="@dimen/ten_sp"
-                    android:layout_marginStart="@dimen/ten_sp"
-                    android:layout_width="@dimen/twenty_sp"
+                    android:layout_marginLeft="@dimen/twenty_sp"
+                    android:layout_marginStart="@dimen/twenty_sp"
+                    android:layout_width="@dimen/thirty_sp"
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"
                     android:layout_alignParentTop="true"
                     android:onClick="@{ (view) -> actionListener.removeItem(item.date)}"
-                    android:layout_height="@dimen/twenty_sp"/>
+                    android:layout_height="@dimen/thirty_sp"/>
             </RelativeLayout>
 
             <ImageView
                 android:id="@+id/imageView"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
-                android:paddingTop="@dimen/twenty_sp"
-                android:paddingBottom="@dimen/twenty_sp"
+                android:paddingTop="@dimen/thirty_sp"
+                android:paddingBottom="@dimen/thirty_sp"
                 android:scaleType="fitXY"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

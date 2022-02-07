@@ -6,12 +6,6 @@
         android:title="@string/apod"
         android:icon="@drawable/ic_home_selected"
         />
-
-    <item
-        android:id="@+id/explore"
-        android:title="@string/explore"
-        android:icon="@drawable/ic_search_selected"
-        />
     <item
         android:id="@+id/favorites"
         android:title="@string/favorites"
