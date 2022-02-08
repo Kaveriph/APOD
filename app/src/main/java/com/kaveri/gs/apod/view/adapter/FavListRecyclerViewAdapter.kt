@@ -39,9 +39,17 @@ class FavListRecyclerViewAdapter(
         apodItem?.let { apod ->
             holder.binding?.titleTxt?.text = apod.title
             holder.binding?.dateTxt?.text = apod.date
+            holder.binding?.mApodDescription?.text = apod.explanation
             if (apod.mediaType.equals("image")) holder.binding?.imageView?.load(apod.url)
         }
         holder.binding?.item = favList?.get(position)
         holder.binding?.actionListener = actionListener
+        holder.binding?.moreBtn?.setOnClickListener {
+            if(holder.binding.mApodDescription.visibility == View.GONE) {
+                holder.binding.mApodDescription.visibility = View.VISIBLE
+            } else {
+                holder.binding.mApodDescription.visibility = View.GONE
+            }
+        }
     }
 }
