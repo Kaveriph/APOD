@@ -1,12 +1,19 @@
 The app  dispalys the current dates APOD if available.
-User can add the pictures to favorite list and manage the list
+User can add the pictures to favorite list and manage the list -> To add an item to the fav list, click on the heart icon available just below the title
+The item can be unlisted from fav by reclicking on it again.
 
-Architecture used - MVVM
-Network library -> Retrofit
-Database -> Room database
+User can delete an item from the favorite list as well by clicking on the delete button
 
-coil library for image loading
-EXO player for video -> but is having some issue where video is not being played.
-coroutines for accessing database
+Architecture used - MVVM, 
+Network library -> Retrofit, 
+Database -> Room database, 
+
+coil library for image loading, 
+
+EXO player for video -> but is having some issue where video is not being played, 
+
+coroutines for accessing database.
+
+
 
 
