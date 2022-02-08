@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="com.kaveri.gs.apod.viewmodel.MainViewModel"
+            />
+        
+        <variable
+            name="actionListener"
+            type="com.kaveri.gs.apod.view.fragments.APODFragmentActionListener" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/thirty_sp"
+        tools:context=".view.fragments.APODFragment">
+
+
+        <TextView
+            android:id="@+id/mApodTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/thirty_sp"
+            android:layout_marginRight="@dimen/thirty_sp"
+            android:textStyle="bold"
+            android:textSize="@dimen/twenty_four_sp"
+            android:text="@{viewModel.todaysApod.title}"
+            app:layout_constraintEnd_toStartOf="@+id/mApodDate"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/mApodDate"
+            android:layout_width="0dp"
+            android:textSize="@dimen/twenty_sp"
+            android:layout_height="wrap_content"
+            android:hint="@string/select_date"
+            android:text="@{viewModel.todaysApod.date}"
+            app:layout_constraintBottom_toBottomOf="@+id/mApodTitle"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:onClick="@{ (view) -> actionListener.onDateSelectionClick()}"
+            app:layout_constraintTop_toTopOf="@+id/mApodTitle" />
+
+        <LinearLayout
+            android:id="@+id/mLLImgVd"
+            android:layout_width="match_parent"
+            android:layout_height="400dp"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toTopOf="@+id/mApodDescription"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/mApodTitle">
+
+            <ImageView
+                android:id="@+id/addToFavImg"
+                android:layout_width="wrap_content"
+                android:src="@drawable/ic_add_to_fav"
+                android:visibility="gone"
+                android:onClick="@{ (view) -> actionListener.addToFav()}"
+                android:layout_height="wrap_content"/>
+
+            <ImageView
+                android:id="@+id/mApodImage"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                />
+
+          <!--  <SurfaceView
+                android:id="@+id/mVideoView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone" />-->
+            <com.google.android.exoplayer2.ui.PlayerView
+                android:id="@+id/playerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+            </com.google.android.exoplayer2.ui.PlayerView>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/mApodDescription"
+            android:layout_width="match_parent"
+            android:textSize="@dimen/twenty_sp"
+            android:layout_height="wrap_content"
+            android:text="@{viewModel.todaysApod.explanation}"
+            app:layout_constraintTop_toBottomOf="@+id/mLLImgVd" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
