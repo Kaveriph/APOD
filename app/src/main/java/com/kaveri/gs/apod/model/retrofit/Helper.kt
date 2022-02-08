@@ -6,6 +6,10 @@ import java.util.*
 
 object Helper {
 
+    /**
+     *
+     * Load properties file from assets folder containing api key
+     */
     fun loadPropertyFile(context: Context, fileLocation: String): Properties {
         val properties = Properties()
         try {
