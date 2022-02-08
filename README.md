@@ -17,5 +17,8 @@ coroutines for accessing database.
 
 PLEASE ADD YOUR API KEY in the config.properties file under assets folder while building the app
 
+Added Dark and Light modes -
 
 
+![Screenshot_20220208-180252](https://user-images.githubusercontent.com/33575691/152988358-e0c9d1f0-c57f-4dc6-adcb-65e9395fe9c1.jpg)
+![Screenshot_20220208-180330](https://user-images.githubusercontent.com/33575691/152988367-1fadabb7-1564-43ba-a135-f0b40b4e8a34.jpg)
