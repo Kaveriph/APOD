@@ -15,5 +15,7 @@ EXO player for video -> but is having some issue where video is not being played
 coroutines for accessing database.
 
 
+PLEASE ADD YOUR API KEY in the config.properties file under assets folder while building the app
+
 
 
