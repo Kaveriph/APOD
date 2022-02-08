@@ -8,7 +8,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 object RetrofitBuilder {
 
     private const val BASE_URL = "https://api.nasa.gov/planetary/apod/"
-    private const val API_KEY = "5tionaDlkbwKACzzTeCqzSz9o6gEwpbn64KaWp1H"
+    private const val API_KEY = ""
 
     private val okhttpClient: OkHttpClient by lazy {
         OkHttpClient.Builder()
