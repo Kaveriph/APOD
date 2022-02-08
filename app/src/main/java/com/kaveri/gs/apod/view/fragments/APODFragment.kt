@@ -74,7 +74,7 @@ class APODFragment : Fragment(), APODFragmentActionListener {
                 println("today's APOD is updated")
                 initMedia(it)
                 binding?.addToFavImg?.visibility = View.VISIBLE
-                if (apod.fav) binding?.addToFavImg?.setBackgroundResource(R.drawable.ic_added_to_fav)
+                if (apod.fav) binding?.addToFavImg?.setBackgroundResource(R.drawable.ic_baseline_added_to_favorite)
                 else binding?.addToFavImg?.setBackgroundResource(R.drawable.ic_add_to_fav)
             }
         })

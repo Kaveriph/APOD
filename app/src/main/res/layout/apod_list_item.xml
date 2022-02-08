@@ -22,8 +22,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="@dimen/twenty_sp"
-            android:background="@color/cream">
+            android:padding="@dimen/twenty_sp">
 
             <RelativeLayout
                 android:id="@+id/titleLL"

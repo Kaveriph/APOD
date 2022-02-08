@@ -59,8 +59,8 @@
             <ImageView
                 android:id="@+id/addToFavImg"
                 android:layout_width="wrap_content"
+                android:tint="@color/purple_700"
                 android:src="@drawable/ic_add_to_fav"
-                android:visibility="gone"
                 android:onClick="@{ (view) -> actionListener.addToFav()}"
                 android:layout_height="wrap_content"/>
 
