@@ -30,11 +30,12 @@ class APODRepository(context: Context) : INetworkRepository, IRoomDbRepository, 
      *  @param failureCallback is to invoke the failure callback when the request fails
      * */
     override fun getApodFromApi(
+        context: Context,
         date: String,
         successCallback: (apodNasa: ApodNasa?) -> Unit,
         failureCallback: (errorMessag: String) -> Unit
     ) {
-        networkRepository.getApodFromApi(date, successCallback, failureCallback)
+        networkRepository.getApodFromApi(context,date, successCallback, failureCallback)
     }
 
     /**

@@ -68,7 +68,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     private fun getAPODFromApi() {
         selectedDate.value?.let {
-            apodRepository.getApodFromApi(it, {
+            apodRepository.getApodFromApi(getApplication(), it, {
                 it?.let {
                     println("APOD received : ${it}")
                     todaysApod.value = convertNasaObjToAppObj(it)

@@ -1,5 +1,6 @@
 package com.kaveri.gs.apod.model.repository
 
+import android.content.Context
 import com.kaveri.gs.apod.R
 import com.kaveri.gs.apod.model.pojo.ApodNasa
 import com.kaveri.gs.apod.model.retrofit.RetrofitBuilder
@@ -21,12 +22,13 @@ class NetworkRepository : INetworkRepository {
      *  @param failureCallback is to invoke the failure callback when the request fails
      * */
     override fun getApodFromApi(
+        context: Context,
         date: String,
         successCallback: (apodNasa: ApodNasa?) -> Unit,
         failureCallback: (errorMessag: String) -> Unit
     ) {
         println("calling for date : $date")
-        return RetrofitBuilder.retrofitService.getApod(date).enqueue(
+        return RetrofitBuilder.getRetrofitService(context).getApod(date).enqueue(
             object : retrofit2.Callback<ApodNasa> {
                 override fun onResponse(call: Call<ApodNasa>, response: Response<ApodNasa>) {
                     if (response.isSuccessful) {
