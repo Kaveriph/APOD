@@ -51,9 +51,9 @@ class FavListFragment : Fragment(), IListActionListener {
     }
 
     private fun initObservers() {
-        viewModel.indexOfItemRemoved.observe(viewLifecycleOwner, {
+        viewModel.indexOfItemRemoved?.observe(viewLifecycleOwner, {
             println("item removed : ${it}")
-            if (it != -1) {
+            if (it != null && it != -1 && it<listOfFavApod.size) {
                 listOfFavApod.removeAt(it)
                 recyclerViewAdapter?.notifyItemRemoved(it)
             }
@@ -68,7 +68,7 @@ class FavListFragment : Fragment(), IListActionListener {
 
     override fun onPause() {
         super.onPause()
-        viewModel.indexOfItemRemoved.value = -1
+        viewModel.indexOfItemRemoved?.value = -1
     }
 
     private fun init() {

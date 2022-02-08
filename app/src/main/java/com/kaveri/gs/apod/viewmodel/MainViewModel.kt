@@ -25,7 +25,7 @@ import kotlin.collections.ArrayList
  * */
 class MainViewModel(application: Application) : AndroidViewModel(application) {
 
-    var indexOfItemRemoved: MutableLiveData<Int> = MutableLiveData()
+    var indexOfItemRemoved: MutableLiveData<Int>? = MutableLiveData()
     var selectedDate: MutableLiveData<String> = MutableLiveData()
     var todaysApod: MutableLiveData<APOD> = MutableLiveData()
     private val apodRepository = APODRepository(application.applicationContext)
@@ -190,7 +190,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                 }
                 println("SDK < N : itemToBeRemoved : ${itemTobeRemoved}")
                 itemTobeRemoved?.let {
-                    indexOfItemRemoved.value = favListOfAPOD.value?.indexOf(itemTobeRemoved)
+                    indexOfItemRemoved?.value = favListOfAPOD.value?.indexOf(itemTobeRemoved)
                     favListOfAPOD.value?.remove(itemTobeRemoved)
                     println("removed the item")
                 }
