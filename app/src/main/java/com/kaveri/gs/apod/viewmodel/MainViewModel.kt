@@ -4,6 +4,7 @@ import android.app.Application
 import android.widget.Toast
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.kaveri.gs.apod.R
@@ -23,13 +24,14 @@ import kotlin.collections.ArrayList
  * This Class extends the [AndroidViewModel] to communicate between Model and View
  * @param application required for the base class and context for db access
  * */
-class MainViewModel(application: Application) : AndroidViewModel(application) {
+class MainViewModel(application: Application) : AndroidViewModel(application) , LiveDatas {
 
     var indexOfItemRemoved: MutableLiveData<Int>? = MutableLiveData()
     var selectedDate: MutableLiveData<String> = MutableLiveData()
-    var todaysApod: MutableLiveData<APOD> = MutableLiveData()
+    private var todaysApod: MutableLiveData<APOD> = MutableLiveData()
     private val apodRepository = APODRepository(application.applicationContext)
     val homeDateSelected: MutableLiveData<String> = MutableLiveData()
+    var immutableTodaysApod = todaysApod as LiveData<APOD>
     var favListOfAPOD: MutableLiveData<ArrayList<APOD>> = MutableLiveData()
 
     fun init() {
@@ -40,6 +42,15 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         } else {
             selectedDate.value = recentDate
         }
+        observer()
+    }
+
+    private fun observer() {
+
+        todaysApod.observeForever {
+
+        }
+
     }
 
     /**

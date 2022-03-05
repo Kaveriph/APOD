@@ -2,6 +2,8 @@ package com.kaveri.gs.apod.model.repository
 
 import android.content.Context
 import com.kaveri.gs.apod.model.pojo.ApodNasa
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 
 
 /**
@@ -9,19 +11,19 @@ import com.kaveri.gs.apod.model.pojo.ApodNasa
  * RoomDB / Network
  * @param context Context of the application
  * */
-class APODRepository(context: Context) : INetworkRepository, IRoomDbRepository, ISharedRepository {
+class APODRepository(context: Context) : INetworkRepository, IRoomDbRepository, ISharedRepository, KoinComponent {
 
-    private val networkRepository by lazy {
+    /*private val networkRepository by lazy {
         NetworkRepository()
-    }
+    }*/
+
+    private val networkRepository by inject<NetworkRepository>()
 
     private val roomDbRepository by lazy {
         RoomDBRepository(context)
     }
 
-    private val  sharedPrefRepository by lazy {
-        SharedPreferenceRepository()
-    }
+    private val  sharedPrefRepository by inject<SharedPreferenceRepository>()
 
     /**
      *  This method retrieved the [ApodNasa] data from NASA APOD API

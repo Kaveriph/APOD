@@ -2,6 +2,7 @@ package com.kaveri.gs.apod.view.activity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -14,6 +15,7 @@ import kotlinx.android.synthetic.main.activity_main.mBottomNavigationBar
 
 class MainActivity : AppCompatActivity() {
     private val viewModel by lazy {
+        viewModelStore
         ViewModelProvider(this).get(MainViewModel::class.java)
     }
 
@@ -24,6 +26,13 @@ class MainActivity : AppCompatActivity() {
         init()
     }
 
+    override fun onRetainCustomNonConfigurationInstance(): Any? {
+        return super.onRetainCustomNonConfigurationInstance()
+    }
+
+    override fun getLastNonConfigurationInstance(): Any? {
+        return super.getLastNonConfigurationInstance()
+    }
     override fun onResume() {
         super.onResume()
         initObservers()
