@@ -1,33 +1,31 @@
 package com.kaveri.gs.apod.model.retrofit
 
-import android.content.Context
-import okhttp3.Interceptor
-import okhttp3.OkHttpClient
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Inject
 
 class RetrofitBuilder {
 
     @Inject
     constructor() {
-        println("RetrofitBUilder injected")
+        println("RetrofitBuilder injected")
     }
 
-    private lateinit var retrofit: Retrofit
+    @Inject
+    lateinit var retrofitService: INASAService
 
-    private var okhttpClient: OkHttpClient? = null
+   /* private lateinit var retrofit: Retrofit
 
-    private val retrofitService: INASAService by lazy {
+    private var okhttpClient: OkHttpClient? = null*/
+
+   /* private val retrofitService: INASAService by lazy {
         retrofit.create(INASAService::class.java)
-    }
+    }*/
 
-    fun getRetrofitService(context: Context) : INASAService {
+    /*fun getRetrofitService(context: Context) : INASAService {
         retrofit = getRetrofit(context)
         return retrofitService
-    }
+    }*/
 
-    fun getRetrofit(context: Context): Retrofit {
+    /*fun getRetrofit(context: Context): Retrofit {
         val retrofit = Retrofit.Builder()
             .baseUrl(Companion.BASE_URL)
             .client(getOkHttpClient(context))
@@ -53,7 +51,7 @@ class RetrofitBuilder {
         }
         return okhttpClient as OkHttpClient
 
-    }
+    }*/
 
     companion object {
         private const val BASE_URL = "https://api.nasa.gov/planetary/apod/"

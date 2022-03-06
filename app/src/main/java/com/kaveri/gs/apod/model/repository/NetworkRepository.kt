@@ -2,6 +2,9 @@ package com.kaveri.gs.apod.model.repository
 
 import android.content.Context
 import com.kaveri.gs.apod.R
+import com.kaveri.gs.apod.di_modules.ContextModule
+import com.kaveri.gs.apod.di_modules.DaggerAppComponent
+import com.kaveri.gs.apod.di_modules.RetrofitBuilderModule
 import com.kaveri.gs.apod.model.pojo.ApodNasa
 import com.kaveri.gs.apod.model.retrofit.RetrofitBuilder
 import retrofit2.Call
@@ -35,7 +38,14 @@ class NetworkRepository : INetworkRepository {
         failureCallback: (errorMessag: String) -> Unit
     ) {
         println("calling for date : $date")
-        return retrofitBuilder.getRetrofitService(context).getApod(date).enqueue(
+
+       /* val daggerAppComponent = DaggerAppComponent.builder().contextModule(ContextModule(context))
+            .retrofitBuilderModule(
+                RetrofitBuilderModule()
+            ).build()
+        return daggerAppComponent.getRetrofitService().getApod(date).enqueue(*/
+
+        return retrofitBuilder.retrofitService.getApod(date).enqueue(
             object : retrofit2.Callback<ApodNasa> {
                 override fun onResponse(call: Call<ApodNasa>, response: Response<ApodNasa>) {
                     if (response.isSuccessful) {

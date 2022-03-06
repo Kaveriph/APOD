@@ -7,10 +7,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.kaveri.gs.apod.R
-import com.kaveri.gs.apod.di_modules.APODRepositoryModule
-import com.kaveri.gs.apod.di_modules.ContextModule
-import com.kaveri.gs.apod.di_modules.DaggerAppComponent
-import com.kaveri.gs.apod.di_modules.NetworkRepositoryModule
+import com.kaveri.gs.apod.di_modules.*
 import com.kaveri.gs.apod.model.pojo.APOD
 import com.kaveri.gs.apod.model.pojo.ApodNasa
 import com.kaveri.gs.apod.model.repository.APODRepository
@@ -21,6 +18,7 @@ import com.kaveri.gs.apod.viewmodel.helper.HelperUtil.convertRoomObjToAppObj
 import kotlinx.coroutines.*
 import java.text.SimpleDateFormat
 import java.util.*
+import javax.inject.Inject
 import kotlin.collections.ArrayList
 
 /**
@@ -54,6 +52,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         val networkRepositoryModule = NetworkRepositoryModule()*/
         val daggerAppComponent = DaggerAppComponent.builder()
             .contextModule(contextModule)
+            .retrofitBuilderModule(RetrofitBuilderModule())
             /*.aPODRepositoryModule(apodRepositoryModule)
             .networkRepositoryModule(networkRepositoryModule)*/
             .build()
