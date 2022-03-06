@@ -2,9 +2,14 @@ package com.kaveri.gs.apod.model.repository
 
 import android.content.Context
 import android.content.SharedPreferences
+import javax.inject.Inject
 
-class SharedPreferenceRepository(): ISharedRepository {
+class SharedPreferenceRepository: ISharedRepository {
 
+    @Inject
+    constructor() {
+        println("SharedPrefRepo injected")
+    }
 
     private val RECENT_DATE: String? = "RECENT_DATE"
     private val sharedPrefFile = "APODSharedPreference"

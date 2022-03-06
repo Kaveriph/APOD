@@ -32,7 +32,7 @@ class NetworkRepository : INetworkRepository {
         failureCallback: (errorMessag: String) -> Unit
     ) {
         println("calling for date : $date")
-        return RetrofitBuilder.getRetrofitService(context).getApod(date).enqueue(
+        return RetrofitBuilder().getRetrofitService(context).getApod(date).enqueue(
             object : retrofit2.Callback<ApodNasa> {
                 override fun onResponse(call: Call<ApodNasa>, response: Response<ApodNasa>) {
                     if (response.isSuccessful) {

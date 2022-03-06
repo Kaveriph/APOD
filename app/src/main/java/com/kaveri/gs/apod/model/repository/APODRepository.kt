@@ -27,16 +27,22 @@ class APODRepository: INetworkRepository, IRoomDbRepository, ISharedRepository {
     @Inject
     lateinit var networkRepository: NetworkRepository
 
+    @Inject
+    lateinit var roomDbRepository: RoomDBRepository
+
+    @Inject
+    lateinit var sharedPrefRepository: SharedPreferenceRepository
+
     init {
     }
 
-    private val roomDbRepository by lazy {
+    /*private val roomDbRepository by lazy {
         RoomDBRepository(context)
-    }
+    }*/
 
-    private val  sharedPrefRepository by lazy {
+    /*private val  sharedPrefRepository by lazy {
         SharedPreferenceRepository()
-    }
+    }*/
 
     /**
      *  This method retrieved the [ApodNasa] data from NASA APOD API

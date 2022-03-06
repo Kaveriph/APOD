@@ -3,13 +3,21 @@ package com.kaveri.gs.apod.model.repository
 import android.content.Context
 import com.kaveri.gs.apod.model.room.APOD
 import com.kaveri.gs.apod.model.room.NASARoomDatabase
+import javax.inject.Inject
 
 /**
  * The Roon Batabase repository implements the [IRoomDbRepository] interface
  * This class implements the definitions for all the Database access queries for the d=table [APOD]
  * */
-class RoomDBRepository(context: Context) : IRoomDbRepository {
+class RoomDBRepository : IRoomDbRepository {
 
+    @Inject
+    lateinit var context: Context
+
+    @Inject
+    constructor() {
+        println("RoomDb injected")
+    }
     private val apodDao by lazy {
         NASARoomDatabase.getDatabase(context).apodDao()
     }
