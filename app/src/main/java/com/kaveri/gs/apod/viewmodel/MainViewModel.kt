@@ -7,9 +7,14 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.kaveri.gs.apod.R
+import com.kaveri.gs.apod.di_modules.APODRepositoryModule
+import com.kaveri.gs.apod.di_modules.ContextModule
+import com.kaveri.gs.apod.di_modules.DaggerAppComponent
+import com.kaveri.gs.apod.di_modules.NetworkRepositoryModule
 import com.kaveri.gs.apod.model.pojo.APOD
 import com.kaveri.gs.apod.model.pojo.ApodNasa
 import com.kaveri.gs.apod.model.repository.APODRepository
+import com.kaveri.gs.apod.model.repository.NetworkRepository
 import com.kaveri.gs.apod.viewmodel.helper.HelperUtil.convertNASAObjToRoomObj
 import com.kaveri.gs.apod.viewmodel.helper.HelperUtil.convertNasaObjToAppObj
 import com.kaveri.gs.apod.viewmodel.helper.HelperUtil.convertRoomObjToAppObj
@@ -28,11 +33,12 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     var indexOfItemRemoved: MutableLiveData<Int>? = MutableLiveData()
     var selectedDate: MutableLiveData<String> = MutableLiveData()
     var todaysApod: MutableLiveData<APOD> = MutableLiveData()
-    private val apodRepository = APODRepository(application.applicationContext)
+    private lateinit var apodRepository : APODRepository
     val homeDateSelected: MutableLiveData<String> = MutableLiveData()
     var favListOfAPOD: MutableLiveData<ArrayList<APOD>> = MutableLiveData()
 
     fun init() {
+        initDependencies()
         val recentDate = apodRepository.getRecentDateStored(getApplication())
         if (recentDate.isEmpty()) {
             val currentDate = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date())
@@ -40,6 +46,19 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         } else {
             selectedDate.value = recentDate
         }
+    }
+
+    private fun initDependencies() {
+        val contextModule = ContextModule(getApplication())
+     /*   val apodRepositoryModule = APODRepositoryModule(getApplication<Application>().applicationContext)
+        val networkRepositoryModule = NetworkRepositoryModule()*/
+        val daggerAppComponent = DaggerAppComponent.builder()
+            .contextModule(contextModule)
+            /*.aPODRepositoryModule(apodRepositoryModule)
+            .networkRepositoryModule(networkRepositoryModule)*/
+            .build()
+        apodRepository = daggerAppComponent.getAPODRepository()
+        println("APODRepository : $apodRepository")
     }
 
     /**

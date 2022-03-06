@@ -1,7 +1,10 @@
 package com.kaveri.gs.apod.model.repository
 
 import android.content.Context
+import com.kaveri.gs.apod.di_modules.DaggerAppComponent
+import com.kaveri.gs.apod.di_modules.NetworkRepositoryModule
 import com.kaveri.gs.apod.model.pojo.ApodNasa
+import javax.inject.Inject
 
 
 /**
@@ -9,10 +12,22 @@ import com.kaveri.gs.apod.model.pojo.ApodNasa
  * RoomDB / Network
  * @param context Context of the application
  * */
-class APODRepository(context: Context) : INetworkRepository, IRoomDbRepository, ISharedRepository {
+class APODRepository: INetworkRepository, IRoomDbRepository, ISharedRepository {
 
-    private val networkRepository by lazy {
+    @Inject
+    constructor() {
+        println("APODRepository injected")
+    }
+    /*private val networkRepository by lazy {
         NetworkRepository()
+    }*/
+    @Inject
+    lateinit var context: Context
+
+    @Inject
+    lateinit var networkRepository: NetworkRepository
+
+    init {
     }
 
     private val roomDbRepository by lazy {

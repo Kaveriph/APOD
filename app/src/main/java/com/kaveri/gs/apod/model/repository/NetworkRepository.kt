@@ -6,6 +6,7 @@ import com.kaveri.gs.apod.model.pojo.ApodNasa
 import com.kaveri.gs.apod.model.retrofit.RetrofitBuilder
 import retrofit2.Call
 import retrofit2.Response
+import javax.inject.Inject
 
 
 /**
@@ -14,7 +15,10 @@ import retrofit2.Response
  * */
 class NetworkRepository : INetworkRepository {
 
-
+    @Inject
+    constructor() {
+        println("NetworkRepository injected")
+    }
     /**
      *  This method retrieved the [ApodNasa] data from NASA APOD API
      *  @param date is the date for which the APOD should be retrieved
