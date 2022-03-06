@@ -19,6 +19,9 @@ class NetworkRepository : INetworkRepository {
     constructor() {
         println("NetworkRepository injected")
     }
+
+    @Inject
+    lateinit var retrofitBuilder: RetrofitBuilder
     /**
      *  This method retrieved the [ApodNasa] data from NASA APOD API
      *  @param date is the date for which the APOD should be retrieved
@@ -32,7 +35,7 @@ class NetworkRepository : INetworkRepository {
         failureCallback: (errorMessag: String) -> Unit
     ) {
         println("calling for date : $date")
-        return RetrofitBuilder().getRetrofitService(context).getApod(date).enqueue(
+        return retrofitBuilder.getRetrofitService(context).getApod(date).enqueue(
             object : retrofit2.Callback<ApodNasa> {
                 override fun onResponse(call: Call<ApodNasa>, response: Response<ApodNasa>) {
                     if (response.isSuccessful) {

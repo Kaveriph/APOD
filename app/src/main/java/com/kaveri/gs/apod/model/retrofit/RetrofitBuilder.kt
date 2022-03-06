@@ -5,12 +5,16 @@ import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import javax.inject.Inject
 
-object RetrofitBuilder {
+class RetrofitBuilder {
+
+    @Inject
+    constructor() {
+        println("RetrofitBUilder injected")
+    }
 
     private lateinit var retrofit: Retrofit
-    private const val BASE_URL = "https://api.nasa.gov/planetary/apod/"
-    private const val API_KEY = ""
 
     private var okhttpClient: OkHttpClient? = null
 
@@ -25,7 +29,7 @@ object RetrofitBuilder {
 
     fun getRetrofit(context: Context): Retrofit {
         val retrofit = Retrofit.Builder()
-            .baseUrl(BASE_URL)
+            .baseUrl(Companion.BASE_URL)
             .client(getOkHttpClient(context))
             .addConverterFactory(GsonConverterFactory.create())
             .build()
@@ -49,5 +53,10 @@ object RetrofitBuilder {
         }
         return okhttpClient as OkHttpClient
 
+    }
+
+    companion object {
+        private const val BASE_URL = "https://api.nasa.gov/planetary/apod/"
+        private const val API_KEY = ""
     }
 }
