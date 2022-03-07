@@ -1,8 +1,6 @@
 package com.kaveri.gs.apod.di_modules
 
-import android.content.Context
 import com.kaveri.gs.apod.model.repository.APODRepository
-import com.kaveri.gs.apod.model.retrofit.INASAService
 import dagger.Component
 
 @ApplicationScope
